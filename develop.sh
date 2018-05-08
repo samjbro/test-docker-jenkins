@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+if [ ! -z "$BUILD_NUMBER" ]; then
+    export XDEBUG_HOST=$(/sbin/ifconfig docker0 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1)
+else
+    export XDEBUG_HOST=$(ipconfig getifaddr en1)
+fi
+
+export CONTAINER_ENV=${CONTAINER_ENV:-local}
 export APP_ENV=${APP_ENV:-local}
 export APP_PORT=${APP_PORT:-80}
 export DB_PORT=${DB_PORT:-3306}
